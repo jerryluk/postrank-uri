@@ -258,6 +258,14 @@ describe PostRank::URI do
       end
     end
 
+    context "includes original url" do
+      it "should include original url if options[:include_raw] is true" do
+        PostRank::URI.extract("abc.com", :include_raw => true).should == [
+          ["http://abc.com/", "abc.com"]
+        ]
+      end
+    end
+
   end
 
   context "href extract" do

@@ -99,14 +99,14 @@ module PostRank
 
     module_function
 
-    def extract(text)
+    def extract(text, opts={})
       return [] if !text
       urls = []
-      text.to_s.scan(URIREGEX[:valid_url]) do |all, before, url, protocol, domain, path, query|
+      text.to_s.scan(URIREGEX[:valid_url]) do |all, before, raw_url, protocol, domain, path, query|
         begin
-          url = clean(url)
+          url = clean(raw_url)
           Domainatrix.parse(url)
-          urls.push url.to_s
+          urls.push(opts[:include_raw] ? [url.to_s, raw_url.to_s] : url.to_s)
         rescue NoMethodError
         end
       end
